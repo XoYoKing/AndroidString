@@ -13,6 +13,9 @@ public class ConstVariable {
 
     public static final String TAG = "ConstVariable";
 
+    public static final int REQUEST_PERMISSIONS                                 = 3001;
+    public static final int REQUEST_ACTION_APPLICATION_DETAILS_SETTINGS         = 3002;
+
     public static void ShowLog(int iType, String sTag, String sLog) {
         //if ( iType==0 ) return ;
         Log.i(TAG + "-" + sTag, sLog);
@@ -46,26 +49,26 @@ public class ConstVariable {
         return true;
     }
 
-    //return： "/storage/emulated/0/Gallery/"
-    public static String getPathGalleryData()
+    //return： "/storage/emulated/0/App/"
+    public static String getPathAppData()
     {
         String strPathSD=getPathSD();
         //建立测试用目录
-        String strPathGalleryData=strPathSD+"Gallery/";
-        if ( dirAdd(strPathGalleryData,false) )
+        String strPathAppData=strPathSD+"AndroidString/";
+        if ( dirAdd(strPathAppData,false) )
         {
         }
         else
         {
-            strPathGalleryData=strPathSD;
+            strPathAppData=strPathSD;
         }
-        ShowLog(0,TAG,"getPathGalleryData-strPathGalleryData="+strPathGalleryData);
-        return strPathGalleryData;
+        ShowLog(0,TAG,"getPathAppData-strPathAppData="+strPathAppData);
+        return strPathAppData;
     }
 
     public static String getPath(String strPathAdd)
     {
-        String strPath = getPathGalleryData()+strPathAdd+"/";
+        String strPath = getPathAppData()+strPathAdd+"/";
         if ( pathIsExists(strPath,true) )
         {
             return strPath;

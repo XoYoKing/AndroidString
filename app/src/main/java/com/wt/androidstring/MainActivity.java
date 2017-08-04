@@ -1,18 +1,36 @@
 package com.wt.androidstring;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
+
+import com.wt.androidstring.common.ConstVariable;
+import com.wt.androidstring.data.STR;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    public static final String TAG = "MainActivity";
+
     /**
      * Whether or not the system UI should be auto-hidden after
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
@@ -108,6 +126,110 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
 
         initButton();
+
+        doRequestPermission();
+    }
+    //权限
+    // 要申请的权限
+    private String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
+    private AlertDialog dialog;
+
+    private void doRequestPermission() {
+        // 版本判断。当手机系统大于 23 时，才有必要去判断权限是否获取
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            // 检查该权限是否已经获取
+            int i = ContextCompat.checkSelfPermission(this, permissions[0]);
+            // 权限是否已经 授权 GRANTED---授权  DINIED---拒绝
+            if (i != PackageManager.PERMISSION_GRANTED) {
+                // 如果没有授予该权限，就去提示用户请求
+                ActivityCompat.requestPermissions(this, permissions, ConstVariable.REQUEST_PERMISSIONS);
+                return ;
+            }
+        }
+    }
+
+    // 用户权限 申请 的回调方法
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        final String strMSG = "onRequestPermissionsResult-";
+        ConstVariable.ShowLog(0, TAG, strMSG + "grantResults.length="+grantResults.length);
+
+        if (requestCode == ConstVariable.REQUEST_PERMISSIONS) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if ( grantResults.length>0 )
+                {
+                    //fix : 我的事务 » 项目列表 » Freely UI AD » [xm02-820] 首次点击相册出现相册停止运行
+                    if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                        // 判断用户是否 点击了不再提醒。(检测该权限是否还可以申请)
+                        boolean b = shouldShowRequestPermissionRationale(permissions[0]);
+                        if (!b) {
+                            // 用户还是想用我的 APP 的
+                            // 提示用户去应用设置界面手动开启权限
+                            showDialogTipUserGoToAppSettting();
+                        } else
+                            finish();
+                    } else {
+                        Toast.makeText(this,this.getString(R.string.permissions_request_ok), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        }
+    }
+
+    // 提示用户去应用设置界面手动开启权限
+    private void showDialogTipUserGoToAppSettting() {
+
+        dialog = new AlertDialog.Builder(this)
+                .setTitle(this.getString(R.string.permissions_can_not_use))
+                .setMessage(this.getString(R.string.permissions_shuoming_start)+this.getString(R.string.app_name)+this.getString(R.string.permissions_shuoming_end))
+                .setPositiveButton(this.getString(R.string.permissions_request_right_now), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // 跳转到应用设置界面
+                        goToAppSetting();
+                    }
+                })
+                .setNegativeButton(this.getString(R.string.qu_xiao), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                }).setCancelable(false).show();
+    }
+    private void goToAppSetting() {
+        Intent intent = new Intent();
+
+        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri = Uri.fromParts("package", getPackageName(), null);
+        intent.setData(uri);
+
+        startActivityForResult(intent, ConstVariable.REQUEST_ACTION_APPLICATION_DETAILS_SETTINGS);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        String strMSG="onActivityResult-";
+        ConstVariable.ShowLog(0,TAG,strMSG+"requestCode = "+requestCode+"resultCode = "+resultCode);
+        if (requestCode == ConstVariable.REQUEST_ACTION_APPLICATION_DETAILS_SETTINGS) {
+
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                // 检查该权限是否已经获取
+                int i = ContextCompat.checkSelfPermission(this, permissions[0]);
+                // 权限是否已经 授权 GRANTED---授权  DINIED---拒绝
+                if (i != PackageManager.PERMISSION_GRANTED) {
+                    // 提示用户应该去应用设置界面手动开启权限
+                    showDialogTipUserGoToAppSettting();
+                } else {
+                    if (dialog != null && dialog.isShowing()) {
+                        dialog.dismiss();
+                    }
+                    Toast.makeText(this,this.getString(R.string.permissions_request_ok), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
     }
 
     @Override
@@ -176,12 +298,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (arg0.getId()) {
             //top title
             case R.id.buttonInit:
+                STR.doInit();
                 break;
             case R.id.buttonImport:
+                STR.doImport();
                 break;
             case R.id.buttonMerge:
                 break;
             case R.id.buttonExport:
+                STR.doExport();
                 break;
             default:
                 break;
