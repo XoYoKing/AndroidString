@@ -37,3 +37,4 @@ app/app.iml
 .idea/libraries/rules_0_5.xml
 .idea/libraries/javax_inject_1.xml
 .idea/libraries/javax_annotation_api_1_2.xml
+.idea/workspace.xml

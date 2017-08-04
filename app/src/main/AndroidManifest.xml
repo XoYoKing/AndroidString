@@ -4,7 +4,7 @@
     android:persistent="true"
     android:priority="1000"
     android:versionCode="0"
-    android:versionName="v0.001_20170804_0915">
+    android:versionName="v0.001_20170804_0918">
 
     <application
         android:allowBackup="true"
