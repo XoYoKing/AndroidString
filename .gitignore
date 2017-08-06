@@ -64,3 +64,9 @@ build/intermediates/dex-cache/cache.xml
 .gradle/4.0-rc-1/taskHistory/taskHistory.bin
 .gradle/4.0-rc-1/taskHistory/taskHistory.lock
 .idea/workspace.xml
+
+.idea/workspace.xml
+
+.idea/misc.xml
+
+local.properties
