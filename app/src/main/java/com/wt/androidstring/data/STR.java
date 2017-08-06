@@ -29,9 +29,11 @@ public class STR {
     public static final String KeyImportType = "ImportType";
     public static final String KeyImportValue = "ImportValue";
     public static final String KeyImportStringFileName = "ImportStringFileName";
+    public static final String KeyMergeStringFileName = "MergeStringFileName";
 
     public static int m_iImportType=0;
     public static String m_strImportStringFileName="strings.xml";
+    public static String m_strMergeStringFileName="tpv_strings.xml";
 
     public static void doInit()
     {
@@ -50,43 +52,50 @@ public class STR {
             e.printStackTrace();
         }
     }
-    public static void doImport()
+    public static void doImportMerge(boolean bMerge)
     {
         String strMSG="doImport-";
         try {
-            String strFileConfig= ConstVariable.getPathAppData()+"config.ini";
-            if ( !ConstVariable.isExistFile(strFileConfig) )
-            {
-                ConstVariable.ShowLog(0,TAG,strMSG+"No File = "+strFileConfig);
-                return;
-            }
-            File f = new File(strFileConfig);
-            InputStream is = new FileInputStream(f);
-            InputStreamReader reader = new InputStreamReader(is);
-            BufferedReader bufferedReader = new BufferedReader(reader);
-            String strLine="";
-            long lTimeBase=-1;
             int i=0;
-            while ((strLine = bufferedReader.readLine()) != null) {
-                ConstVariable.ShowLog(0,TAG,strMSG+"strLine = "+strLine);
-                String [] aConfigKey = null;
-                aConfigKey = strLine.split(",");
-                if ( aConfigKey.length>1 )
+            if (!bMerge)
+            {
+                String strFileConfig= ConstVariable.getPathAppData()+"config.ini";
+                if ( !ConstVariable.isExistFile(strFileConfig) )
                 {
-                    if ( KeyImportType.equalsIgnoreCase(aConfigKey[0]) )
+                    ConstVariable.ShowLog(0,TAG,strMSG+"No File = "+strFileConfig);
+                    return;
+                }
+                File f = new File(strFileConfig);
+                InputStream is = new FileInputStream(f);
+                InputStreamReader reader = new InputStreamReader(is);
+                BufferedReader bufferedReader = new BufferedReader(reader);
+                String strLine="";
+                long lTimeBase=-1;
+                while ((strLine = bufferedReader.readLine()) != null) {
+                    ConstVariable.ShowLog(0,TAG,strMSG+"strLine = "+strLine);
+                    String [] aConfigKey = null;
+                    aConfigKey = strLine.split(",");
+                    if ( aConfigKey.length>1 )
                     {
-                        m_iImportType=Integer.parseInt(aConfigKey[1]);
-                    }
-                    else if ( KeyImportValue.equalsIgnoreCase(aConfigKey[0]) )
-                    {
-                        for ( i=1;i<aConfigKey.length;i++ )
+                        if ( KeyImportType.equalsIgnoreCase(aConfigKey[0]) )
                         {
-                            LANGUAGE.add(aConfigKey[i]);
+                            m_iImportType=Integer.parseInt(aConfigKey[1]);
                         }
-                    }
-                    else if ( KeyImportStringFileName.equalsIgnoreCase(aConfigKey[0]) )
-                    {
-                        m_strImportStringFileName=aConfigKey[1];
+                        else if ( KeyImportValue.equalsIgnoreCase(aConfigKey[0]) )
+                        {
+                            for ( i=1;i<aConfigKey.length;i++ )
+                            {
+                                LANGUAGE.add(aConfigKey[i]);
+                            }
+                        }
+                        else if ( KeyImportStringFileName.equalsIgnoreCase(aConfigKey[0]) )
+                        {
+                            m_strImportStringFileName=aConfigKey[1];
+                        }
+                        else if ( KeyMergeStringFileName.equalsIgnoreCase(aConfigKey[0]) )
+                        {
+                            m_strMergeStringFileName=aConfigKey[1];
+                        }
                     }
                 }
             }
@@ -94,7 +103,7 @@ public class STR {
             for ( i=0;i<LANGUAGE.m_saLanguage.size();i++ )
             {
                 String strLanguage=(String)LANGUAGE.m_saLanguage.valueAt(i);
-                addLanguage(strLanguage);
+                addLanguage(strLanguage,bMerge);
 
             }
         } catch (Exception e) {
@@ -103,13 +112,17 @@ public class STR {
         }
     }
 
-    public static void addLanguage(String strLanguage)
+    public static void addLanguage(String strLanguage,boolean bMerge)
     {
         String strMSG="addLanguage-";
         try {
             ConstVariable.ShowLog(0,TAG,strMSG+"strLanguage = "+strLanguage);
 
             String strFileString= ConstVariable.getPathAppData()+"I/import/"+strLanguage+"/"+m_strImportStringFileName;
+            if ( bMerge )
+            {
+                strFileString= ConstVariable.getPathAppData()+"I/merge/"+strLanguage+"/"+m_strMergeStringFileName;
+            }
             if ( !ConstVariable.isExistFile(strFileString) )
             {
                 ConstVariable.ShowLog(0,TAG,strMSG+"No File = "+strFileString);
@@ -117,46 +130,85 @@ public class STR {
             }
             File f = new File(strFileString);
             InputStream is = new FileInputStream(f);
-            //使用PULL解析
-            XmlPullParser xmlPullParser= Xml.newPullParser();
-            xmlPullParser.setInput(is,"UTF-8");
-            //获取解析的标签的类型
-            int type=xmlPullParser.getEventType();
-            while(type!=XmlPullParser.END_DOCUMENT){
-                switch (type) {
-                    case XmlPullParser.START_TAG:
-                        //获取开始标签的名字
-                        String starttgname = xmlPullParser.getName();
-                        if ("string".equals(starttgname)) {
-                            //获取id的值
-                            String strKey = xmlPullParser.getAttributeValue(0);
-                            String strValue = xmlPullParser.nextText();
-                            ConstVariable.ShowLog(0,TAG,strMSG+strKey+" ： "+strValue);
-                            KYVALUE theKYVALUE=KY.getKEY(strKey);
-                            theKYVALUE.putValue(strLanguage,strValue);
-                        }
-                        break;
-                    case XmlPullParser.END_TAG:
-                        break;
-                }//细节：
-                type=xmlPullParser.next();
-            }
-
-//            InputStreamReader reader = new InputStreamReader(is);
-//            BufferedReader bufferedReader = new BufferedReader(reader);
-//            String strLine="";
-//            long lTimeBase=-1;
-//            int i=0;
-//            while ((strLine = bufferedReader.readLine()) != null) {
-//                ConstVariable.ShowLog(0,TAG,strMSG+"strLine = "+strLine);
-//                //<string name="app_name">图库</string>
-//                String [] aConfigKey = null;
-//                aConfigKey = strLine.split(",");
-//                if ( aConfigKey.length>1 )
-//                {
-//                    DocumentBuilderFactory
-//                }
+//            //使用PULL解析
+//            XmlPullParser xmlPullParser= Xml.newPullParser();
+//            xmlPullParser.setInput(is,"UTF-8");
+//            //获取解析的标签的类型
+//            int type=xmlPullParser.getEventType();
+//            while(type!=XmlPullParser.END_DOCUMENT){
+//                switch (type) {
+//                    case XmlPullParser.START_TAG:
+//                        //获取开始标签的名字
+//                        String starttgname = xmlPullParser.getName();
+//                        if ("string".equals(starttgname)) {
+//                            //获取id的值
+//                            String strKey = xmlPullParser.getAttributeValue(0);
+//                            String strValue = xmlPullParser.nextText();
+//
+//                            ConstVariable.ShowLog(0,TAG,strMSG+strKey+" ： "+strValue);
+//                            KYVALUE theKYVALUE=KY.getKEY(strKey);
+//                            theKYVALUE.putValue(strLanguage,strValue);
+//                        }
+//                        break;
+//                    case XmlPullParser.END_TAG:
+//                        break;
+//                }//细节：
+//                type=xmlPullParser.next();
 //            }
+
+            //自行解析
+            InputStreamReader reader = new InputStreamReader(is);
+            BufferedReader bufferedReader = new BufferedReader(reader);
+            String strLine="";
+            long lTimeBase=-1;
+            int i=0;
+            while ((strLine = bufferedReader.readLine()) != null) {
+                //ConstVariable.ShowLog(0,TAG,strMSG+"strLine = "+strLine);
+                //<string name="app_name">图库</string>
+                String [] aConfigKey = null;
+
+                aConfigKey = strLine.split("<string name=\"");
+                //ConstVariable.ShowLog(0,TAG,strMSG+"aConfigKey.length = "+aConfigKey.length);
+                if ( aConfigKey.length==2 )
+                {
+                    strLine=aConfigKey[1];
+                    //ConstVariable.ShowLog(0,TAG,strMSG+"strLine = "+strLine);
+
+                    aConfigKey = strLine.split("\">");
+                    //ConstVariable.ShowLog(0,TAG,strMSG+"aConfigKey.length = "+aConfigKey.length);
+                    if ( aConfigKey.length==2 )
+                    {
+                        String strKey =aConfigKey[0];
+                        String [] aKey = null;
+                        aKey = strKey.split("\"");
+                        if ( aConfigKey.length>0 )
+                        {
+                            strKey=aKey[0];
+                        }
+                        //
+                        //
+                        //ConstVariable.ShowLog(0,TAG,strMSG+"strKey = "+strKey);
+                        strLine=aConfigKey[1];
+                        //ConstVariable.ShowLog(0,TAG,strMSG+"strLine = "+strLine);
+
+                        aConfigKey = strLine.split("</string>");
+                        //ConstVariable.ShowLog(0,TAG,strMSG+"aConfigKey.length = "+aConfigKey.length);
+                        if ( aConfigKey.length==1 )
+                        {
+                            String strValue =aConfigKey[0];
+                            //ConstVariable.ShowLog(0,TAG,strMSG+"strValue = "+strValue);
+                            //ConstVariable.ShowLog(0,TAG,strMSG+"aConfigKey[0] = "+aConfigKey[0]);
+
+                            ConstVariable.ShowLog(0,TAG,strMSG+strKey+" ： "+strValue);
+                            KYVALUE theKYVALUE=KY.getKEY(strKey,bMerge);
+                            if ( theKYVALUE!=null )
+                            {
+                                theKYVALUE.putValue(strLanguage,strValue);
+                            }
+                        }
+                    }
+                }
+            }
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -206,7 +258,9 @@ public class STR {
             int i=0;
             for ( i=0;i<iCountKey;i++ )
             {
-                KYVALUE theKYVALUE=KY.m_aKEY.valueAt(i);
+                //KYVALUE theKYVALUE=KY.m_aKEY.valueAt(i);
+                //KYVALUE theKYVALUE=KY.m_aKEY.get(KY.m_aKEY.keyAt(i));
+                KYVALUE theKYVALUE=KY.m_aKEY.get(KY.m_saKey.valueAt(i));
                 //每次写入时，都换行写
                 strContent=theKYVALUE.toStringCSV()+"\n";
                 raf.write(strContent.getBytes());
@@ -255,7 +309,9 @@ public class STR {
             int i=0;
             for ( i=0;i<iCountKey;i++ )
             {
-                KYVALUE theKYVALUE=KY.m_aKEY.valueAt(i);
+                //KYVALUE theKYVALUE=KY.m_aKEY.valueAt(i);
+                //KYVALUE theKYVALUE=KY.m_aKEY.get(KY.m_aKEY.keyAt(i));
+                KYVALUE theKYVALUE=KY.m_aKEY.get(KY.m_saKey.valueAt(i));
                 //每次写入时，都换行写
                 strContent=theKYVALUE.toStringTXTTAB()+"\n";
                 raf.write(strContent.getBytes());

@@ -301,9 +301,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 STR.doInit();
                 break;
             case R.id.buttonImport:
-                STR.doImport();
+                STR.doImportMerge(false);
                 break;
             case R.id.buttonMerge:
+                STR.doImportMerge(true);
                 break;
             case R.id.buttonExport:
                 STR.doExport();

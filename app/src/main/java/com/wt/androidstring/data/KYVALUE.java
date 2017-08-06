@@ -25,7 +25,12 @@ public class KYVALUE {
         int iCountLanguage=LANGUAGE.m_saLanguage.size();
         for ( i=0;i<iCountLanguage;i++ )
         {
-            strLine=strLine+","+m_aValue.get(LANGUAGE.m_saLanguage.valueAt(i));
+            String strValue=m_aValue.get(LANGUAGE.m_saLanguage.valueAt(i));
+            if ( strValue==null )
+            {
+                strValue="";
+            }
+            strLine=strLine+","+strValue;
         }
         return strLine;
     }
@@ -36,7 +41,12 @@ public class KYVALUE {
         int iCountLanguage=LANGUAGE.m_saLanguage.size();
         for ( i=0;i<iCountLanguage;i++ )
         {
-            strLine=strLine+"XXXZYYY"+m_aValue.get(LANGUAGE.m_saLanguage.valueAt(i));
+            String strValue=m_aValue.get(LANGUAGE.m_saLanguage.valueAt(i));
+            if ( strValue==null )
+            {
+                strValue="";
+            }
+            strLine=strLine+"XXXZYYY"+strValue;
         }
         return strLine;
     }
