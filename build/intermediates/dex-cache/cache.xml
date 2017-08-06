@@ -30,33 +30,6 @@
     </item>
     <item
         is-multidex="false"
-        jar="C:\Users\Ting.Wong\.android\build-cache\c111d876de9dc04ae13246b3f521119eb03cd57d\output\jars\classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="26.0.0"
-        sha1="6ef31f1555bb4cc513ec8d52711365a8b89f3600">
-        <dex dex="D:\GitHub\AndroidString\app\build\intermediates\pre-dexed\debug\classes_e2fcd4e5460725d14dc10061539ed877542f72a9.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="C:\Users\Ting.Wong\.android\build-cache\fd211a533dcb48aab4359933c427f9a0c0e6b957\output\jars\classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="26.0.0"
-        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
-        <dex dex="D:\GitHub\AndroidString\app\build\intermediates\pre-dexed\debug\classes_458ff77ec74347d3520d4c58fb21fa4403ed4b63.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="C:\Users\Ting.Wong\AppData\Local\Android\Sdk\extras\android\m2repository\com\android\support\support-annotations\25.3.1\support-annotations-25.3.1.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="26.0.0"
-        sha1="bf8841d29fa39e077730e7a91222c2ce269fa7c9">
-        <dex dex="D:\GitHub\AndroidString\app\build\intermediates\pre-dexed\debug\support-annotations-25.3.1_62dc523e6b061cfca4975f8a0e4448bc0f82768e.jar" />
-    </item>
-    <item
-        is-multidex="false"
         jar="C:\Users\Ting.Wong\.android\build-cache\38aa78a3e555e95a0c255720e588f8243dfb4065\output\jars\classes.jar"
         jumboMode="false"
         optimize="true"
@@ -74,6 +47,24 @@
         <dex dex="D:\GitHub\AndroidString\app\build\intermediates\pre-dexed\debug\classes_9e2c0d10ea4581338f648adced3fb11466e6e3f4.jar" />
     </item>
     <item
+        is-multidex="true"
+        jar="D:\GitHub\AndroidString\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.0"
+        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
+        <dex dex="D:\GitHub\AndroidString\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_b71ceb09966a2993ea54fb2885a9de905dd847bd\classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Ting.Wong\.android\build-cache\c111d876de9dc04ae13246b3f521119eb03cd57d\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="6ef31f1555bb4cc513ec8d52711365a8b89f3600">
+        <dex dex="D:\GitHub\AndroidString\app\build\intermediates\pre-dexed\debug\classes_e2fcd4e5460725d14dc10061539ed877542f72a9.jar" />
+    </item>
+    <item
         is-multidex="false"
         jar="C:\Users\Ting.Wong\.android\build-cache\70480b85968d58ec366022085dfe754d8892d627\output\jars\classes.jar"
         jumboMode="false"
@@ -84,12 +75,39 @@
     </item>
     <item
         is-multidex="false"
+        jar="C:\Users\Ting.Wong\.android\build-cache\fd211a533dcb48aab4359933c427f9a0c0e6b957\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="D:\GitHub\AndroidString\app\build\intermediates\pre-dexed\debug\classes_458ff77ec74347d3520d4c58fb21fa4403ed4b63.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="C:\Users\Ting.Wong\.android\build-cache\331eb99677d987b11ad517eeb4f97ae326f727d0\output\jars\classes.jar"
         jumboMode="false"
         optimize="true"
         revision="26.0.0"
         sha1="47635644d0d5c103c1dd8360549eb9ba3225c7d3">
         <dex dex="D:\GitHub\AndroidString\app\build\intermediates\pre-dexed\debug\classes_fdfaf82fb05f57fd24da89eedae023821c9b3830.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\GitHub\AndroidString\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.0"
+        sha1="e7837cf980b240afc0487029a594445c21c20acd">
+        <dex dex="D:\GitHub\AndroidString\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_79d93cd684c58a24343de9d39feb7195733c0ac1\classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Ting.Wong\AppData\Local\Android\Sdk\extras\android\m2repository\com\android\support\support-annotations\25.3.1\support-annotations-25.3.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="bf8841d29fa39e077730e7a91222c2ce269fa7c9">
+        <dex dex="D:\GitHub\AndroidString\app\build\intermediates\pre-dexed\debug\support-annotations-25.3.1_62dc523e6b061cfca4975f8a0e4448bc0f82768e.jar" />
     </item>
 
 </items>
