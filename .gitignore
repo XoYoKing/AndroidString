@@ -53,3 +53,4 @@ build/android-profile/profile-2017-08-06-09-33-44-268.rawproto
 build/android-profile/profile-2017-08-06-10-17-34-796.rawproto
 build/intermediates/dex-cache/cache.xml
 build/android-profile/profile-2017-08-06-11-58-37-870.rawproto
+*.rawproto
