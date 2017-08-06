@@ -70,3 +70,5 @@ build/intermediates/dex-cache/cache.xml
 .idea/misc.xml
 
 local.properties
+.idea/
+.idea/libraries/*.xml
