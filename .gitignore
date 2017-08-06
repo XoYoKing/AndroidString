@@ -54,3 +54,13 @@ build/android-profile/profile-2017-08-06-10-17-34-796.rawproto
 build/intermediates/dex-cache/cache.xml
 build/android-profile/profile-2017-08-06-11-58-37-870.rawproto
 *.rawproto
+build/intermediates/dex-cache/cache.xml
+.gradle/4.0-rc-1/fileHashes/fileHashes.bin
+.gradle/4.0-rc-1/fileHashes/fileHashes.lock
+.gradle/4.0-rc-1/javaCompile/classAnalysis.bin
+.gradle/4.0-rc-1/javaCompile/javaCompile.lock
+.gradle/4.0-rc-1/javaCompile/taskHistory.bin
+.gradle/4.0-rc-1/taskHistory/fileSnapshots.bin
+.gradle/4.0-rc-1/taskHistory/taskHistory.bin
+.gradle/4.0-rc-1/taskHistory/taskHistory.lock
+.idea/workspace.xml

@@ -58,6 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginTop="24dp"
                 android:layout_weight="1"
                 android:text="导入" />
 
@@ -67,6 +68,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
+                android:layout_marginTop="24dp"
                 android:text="合并" />
 
             <Button
@@ -75,6 +77,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
+                android:layout_marginTop="24dp"
                 android:text="导出" />
         </LinearLayout>
     </RelativeLayout>

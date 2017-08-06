@@ -298,16 +298,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (arg0.getId()) {
             //top title
             case R.id.buttonInit:
-                STR.doInit();
+                STR.doInit(this);
                 break;
             case R.id.buttonImport:
-                STR.doImportMerge(false);
+                STR.doImportMerge(this,false);
                 break;
             case R.id.buttonMerge:
-                STR.doImportMerge(true);
+                STR.doImportMerge(this,true);
                 break;
             case R.id.buttonExport:
-                STR.doExport();
+                STR.doExport(this);
                 break;
             default:
                 break;

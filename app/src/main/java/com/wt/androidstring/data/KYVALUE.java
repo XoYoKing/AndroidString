@@ -46,7 +46,7 @@ public class KYVALUE {
             {
                 strValue="";
             }
-            strLine=strLine+"XXXZYYY"+strValue;
+            strLine=strLine+"\t"+strValue;
         }
         return strLine;
     }

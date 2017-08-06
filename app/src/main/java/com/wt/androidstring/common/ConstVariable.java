@@ -1,7 +1,9 @@
 package com.wt.androidstring.common;
 
+import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.File;
 
@@ -21,6 +23,10 @@ public class ConstVariable {
         Log.i(TAG + "-" + sTag, sLog);
         //Log.i(TAG,sTag + "-" + sLog);
         //Log.i(sTag, sLog);
+    }
+    public static void ShowToast(Context theContext, String sToast)
+    {
+        Toast.makeText(theContext,sToast, Toast.LENGTH_SHORT).show();
     }
 
     //return： "/storage/emulated/0/"

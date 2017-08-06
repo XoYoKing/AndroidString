@@ -1,5 +1,6 @@
 package com.wt.androidstring.data;
 
+import android.content.Context;
 import android.util.SparseArray;
 import android.util.Xml;
 
@@ -35,25 +36,40 @@ public class STR {
     public static String m_strImportStringFileName="strings.xml";
     public static String m_strMergeStringFileName="tpv_strings.xml";
 
-    public static void doInit()
-    {
-        try {
-            File f = new File("E:est.txt");
-            InputStream is = new FileInputStream(f);
-            InputStreamReader reader = new InputStreamReader(is);
-            BufferedReader bufferedReader = new BufferedReader(reader);
-            String strLine="";
-            long lTimeBase=-1;
-            while ((strLine = bufferedReader.readLine()) != null) {
+    public static Context m_theContext=null;
 
-            }
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-    public static void doImportMerge(boolean bMerge)
+    public static boolean m_bInit=false;
+    public static boolean m_bImport=false;
+    public static boolean m_bMerge=true;
+    public static boolean m_bExport=true;
+    public static void doInit(Context theContext)
     {
+        m_theContext=theContext;
+        m_bInit=true;
+        ConstVariable.ShowToast(m_theContext,"初始化完成！");
+    }
+    public static void doImportMerge(Context theContext,boolean bMerge)
+    {
+        m_theContext=theContext;
+        if ( !m_bInit )
+        {
+            ConstVariable.ShowToast(m_theContext,"请先进行初始化！");
+            return;
+        }
+        if ( bMerge )
+        {
+            if ( !m_bImport )
+            {
+                ConstVariable.ShowToast(m_theContext,"请先进行导入！");
+                return;
+            }
+            m_bMerge=false;
+        }
+        else
+        {
+            m_bImport=false;
+        }
+
         String strMSG="doImport-";
         try {
             int i=0;
@@ -110,6 +126,17 @@ public class STR {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+
+        if ( bMerge )
+        {
+            m_bMerge=true;
+            ConstVariable.ShowToast(m_theContext,"合并完成！");
+        }
+        else
+        {
+            m_bImport=true;
+            ConstVariable.ShowToast(m_theContext,"导入完成！");
+        }
     }
 
     public static void addLanguage(String strLanguage,boolean bMerge)
@@ -163,25 +190,25 @@ public class STR {
             long lTimeBase=-1;
             int i=0;
             while ((strLine = bufferedReader.readLine()) != null) {
-                //ConstVariable.ShowLog(0,TAG,strMSG+"strLine = "+strLine);
+                ConstVariable.ShowLog(0,TAG,strMSG+"strLine = "+strLine);
                 //<string name="app_name">图库</string>
                 String [] aConfigKey = null;
 
                 aConfigKey = strLine.split("<string name=\"");
                 //ConstVariable.ShowLog(0,TAG,strMSG+"aConfigKey.length = "+aConfigKey.length);
-                if ( aConfigKey.length==2 )
+                if ( aConfigKey.length>1 )//if ( aConfigKey.length==2 )
                 {
                     strLine=aConfigKey[1];
                     //ConstVariable.ShowLog(0,TAG,strMSG+"strLine = "+strLine);
 
                     aConfigKey = strLine.split("\">");
                     //ConstVariable.ShowLog(0,TAG,strMSG+"aConfigKey.length = "+aConfigKey.length);
-                    if ( aConfigKey.length==2 )
+                    if ( aConfigKey.length>1 )//if ( aConfigKey.length==2 )
                     {
                         String strKey =aConfigKey[0];
                         String [] aKey = null;
                         aKey = strKey.split("\"");
-                        if ( aConfigKey.length>0 )
+                        if ( aConfigKey.length>0 )//if ( aConfigKey.length==1 )
                         {
                             strKey=aKey[0];
                         }
@@ -193,7 +220,7 @@ public class STR {
 
                         aConfigKey = strLine.split("</string>");
                         //ConstVariable.ShowLog(0,TAG,strMSG+"aConfigKey.length = "+aConfigKey.length);
-                        if ( aConfigKey.length==1 )
+                        if ( aConfigKey.length>0 )//if ( aConfigKey.length==1 )
                         {
                             String strValue =aConfigKey[0];
                             //ConstVariable.ShowLog(0,TAG,strMSG+"strValue = "+strValue);
@@ -215,10 +242,26 @@ public class STR {
         }
     }
 
-    public static void doExport()
+    public static void doExport(Context theContext)
     {
+        m_theContext=theContext;
+        if ( !m_bInit )
+        {
+            ConstVariable.ShowToast(m_theContext,"请先进行初始化！");
+            return;
+        }
+        if ( !m_bImport )
+        {
+            ConstVariable.ShowToast(m_theContext,"请先进行导入！");
+            return;
+        }
+        m_bExport=false;
+
         doExportCSV();
         doExportTXTTAB();
+
+        m_bExport=true;
+        ConstVariable.ShowToast(m_theContext,"导出完成！");
     }
     public static void doExportCSV()
     {

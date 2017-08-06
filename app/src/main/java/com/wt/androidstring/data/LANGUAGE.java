@@ -65,7 +65,7 @@ public class LANGUAGE {
         int iCountLanguage=m_saLanguage.size();
         for ( i=0;i<iCountLanguage;i++ )
         {
-            strLine=strLine+"XXXZYYY"+LANGUAGE.m_saLanguage.valueAt(i);
+            strLine=strLine+"\t"+LANGUAGE.m_saLanguage.valueAt(i);
         }
         return strLine;
     }
